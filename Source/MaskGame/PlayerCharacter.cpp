@@ -4,6 +4,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "MaskGame/MaskGameInstance.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -11,14 +12,17 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Mask = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mask"));
 	Mask->SetupAttachment(GetMesh());
+	Camera->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
 
 	GI = Cast<UMaskGameInstance>(GetGameInstance());
 	
@@ -67,7 +71,6 @@ void APlayerCharacter::Dash()
 		FVector MouseLocation;
 		FVector WorldDirection;
 		Cast<APlayerController>(GetController())->DeprojectMousePositionToWorld(MouseLocation, WorldDirection);
-		DrawDebugLine(GetWorld(), MouseLocation, MouseLocation + WorldDirection * 1000.0f, FColor::Red, true);
 
 		FHitResult MousePosInWorld;
 
@@ -85,7 +88,6 @@ void APlayerCharacter::Dash()
 
 void APlayerCharacter::RemoveMask()
 {
-	UE_LOG(LogTemp, Log, TEXT("Remove Mask"));
 	Mask->SetStaticMesh(nullptr);
 	JumpMaxCount = 1;
 	MaxDash = 0;
@@ -98,7 +100,6 @@ void APlayerCharacter::RemoveMask()
 
 void APlayerCharacter::EquipMask1()
 {
-	UE_LOG(LogTemp, Log, TEXT("Double jump mask"));
 	Mask->SetStaticMesh(MaskRefences[0]);
 	JumpMaxCount = 2;
 	MaxDash = 0;
@@ -110,7 +111,6 @@ void APlayerCharacter::EquipMask1()
 
 void APlayerCharacter::EquipMask2()
 {
-	UE_LOG(LogTemp, Log, TEXT("Dask mask"));
 	Mask->SetStaticMesh(MaskRefences[1]);
 	JumpMaxCount = 1;
 	MaxDash = 1;
