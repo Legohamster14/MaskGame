@@ -6,7 +6,6 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
-class UCameraComponent;
 
 UCLASS()
 class MASKGAME_API APlayerCharacter : public ACharacter
@@ -53,6 +52,4 @@ protected:
 
 	class UMaskGameInstance* GI;
 
-	UPROPERTY(EditAnywhere, Category = "Components")
-	UCameraComponent* Camera;
 };
