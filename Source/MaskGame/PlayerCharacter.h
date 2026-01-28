@@ -35,8 +35,15 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Dash")
 	int32 DashAmount = 1;
 
+	UPROPERTY(EditAnywhere, Category = "Slide")
+	int32 SlideDistance = 100;
+	UPROPERTY(EditAnywhere, Category = "Slide")
+	bool bSlideMaskOn = false;
+
 	UPROPERTY(EditAnywhere, Category = "Jump")
 	int32 MaxJump = 1;
+
+	void ResetPlayer();
 
 protected:
 	// Called when the game starts or when spawned
@@ -45,10 +52,15 @@ protected:
 	void MoveRight(float InputValue);
 
 	void Dash();
+	void StartSlide();
+	UFUNCTION()
+	void EndSlide();
 
 	void RemoveMask();
 	void EquipMask1();
 	void EquipMask2();
+	void EquipMask3();
+
 
 	class UMaskGameInstance* GI;
 

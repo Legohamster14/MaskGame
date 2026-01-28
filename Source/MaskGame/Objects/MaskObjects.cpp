@@ -1,45 +1,45 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MaskGame/Objects/Mask2Objects.h"
+#include "MaskGame/Objects/MaskObjects.h"
 #include "MaskGame/MaskGameInstance.h"
 
 // Sets default values
-AMask2Objects::AMask2Objects()
+AMaskObjects::AMaskObjects()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Object = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Object"));
-	Object->SetupAttachment(RootComponent);
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	Mesh->SetupAttachment(RootComponent);
 
 }
 
 // Called when the game starts or when spawned
-void AMask2Objects::BeginPlay()
+void AMaskObjects::BeginPlay()
 {
 	Super::BeginPlay();
 
 	GI = Cast<UMaskGameInstance>(GetGameInstance());
 
 	SetActorHiddenInGame(true);
-	Object->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 // Called every frame
-void AMask2Objects::Tick(float DeltaTime)
+void AMaskObjects::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 	if (GI != nullptr) {
-		if (GI->MaskStateIndex == 2) {
+		if (GI->MaskStateIndex == MaskLayer) {
 			SetActorHiddenInGame(false);
-			Object->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+			Mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		}
 		else
 		{
 			SetActorHiddenInGame(true);
-			Object->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		}
 	}
 }

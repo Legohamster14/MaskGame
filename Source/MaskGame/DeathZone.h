@@ -4,26 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Mask1Objects.generated.h"
+#include "DeathZone.generated.h"
 
 UCLASS()
-class MASKGAME_API AMask1Objects : public AActor
+class MASKGAME_API ADeathZone : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AMask1Objects();
+	ADeathZone();
 
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, Category = "Components")
+	class UBoxComponent* TriggerArea;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* Object;
+	UFUNCTION()
+	void OnTriggerAreaOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	class UMaskGameInstance* GI;
 };

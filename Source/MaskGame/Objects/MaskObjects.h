@@ -4,26 +4,30 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Mask2Objects.generated.h"
+#include "MaskObjects.generated.h"
 
 UCLASS()
-class MASKGAME_API AMask2Objects : public AActor
+class MASKGAME_API AMaskObjects : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AMask2Objects();
+	AMaskObjects();
 
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, Category = "Mask")
+	int32 MaskLayer = 1;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+	UStaticMeshComponent* Mesh;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* Object;
 
 	class UMaskGameInstance* GI;
+
 };
